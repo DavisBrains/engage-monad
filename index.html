@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Engage — say something worth saying</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wordmark">ENGAGE</div>
+    <button id="connectBtn" class="btn btn-outline">Connect wallet</button>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Say something worth saying.<br>Then prove you showed up.</h1>
+        <p class="lede">Paste a post. Get a fast, honest read on what it says and three comments that sound like you — not a template. Every session stamps your streak on Monad, so consistency stays yours to prove.</p>
+      </div>
+      <div class="stamp-card" id="stampCard">
+        <div class="stamp-card-label">momentum ledger</div>
+        <div class="stamp-row">
+          <div class="stamp-figure">
+            <div class="stamp-number" id="streakNumber">—</div>
+            <div class="stamp-unit">day streak</div>
+          </div>
+          <div class="stamp-ring" id="stampRing">
+            <span id="stampGlyph">✕</span>
+          </div>
+        </div>
+        <div class="stamp-meta">
+          <div><span>longest</span><b id="longestStat">—</b></div>
+          <div><span>total logs</span><b id="totalStat">—</b></div>
+          <div><span>wallet</span><b id="walletStat">not connected</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKSPACE -->
+    <section class="workspace">
+      <div class="panel input-panel">
+        <div class="panel-label">01 — paste the post</div>
+        <textarea id="postInput" placeholder="Paste the LinkedIn or X post text here..."></textarea>
+        <button id="generateBtn" class="btn btn-primary" disabled>Get suggestions</button>
+        <p class="hint" id="apiHint">Add your Groq API key below to enable this.</p>
+      </div>
+
+      <div class="panel output-panel">
+        <div class="panel-label">02 — read &amp; reply</div>
+        <div id="summaryBox" class="summary-box empty">
+          <span class="placeholder">Your summary will land here.</span>
+        </div>
+        <div id="commentsBox" class="comments-box"></div>
+      </div>
+    </section>
+
+    <!-- LOG SECTION -->
+    <section class="log-section">
+      <div class="panel-label">03 — stamp today's session</div>
+      <p class="hint">Used a comment above? Log the session on-chain to keep your streak alive.</p>
+      <button id="logBtn" class="btn btn-primary" disabled>Log engagement on Monad</button>
+      <div id="txStatus" class="tx-status"></div>
+    </section>
+
+    <!-- LEDGER -->
+    <section class="ledger-section">
+      <div class="panel-label">ledger</div>
+      <div id="ledgerList" class="ledger-list">
+        <div class="ledger-empty">No entries yet. Connect your wallet to see your history.</div>
+      </div>
+    </section>
+
+    <!-- SETUP -->
+    <section class="setup-section">
+      <div class="panel-label">setup</div>
+      <div class="setup-row">
+        <label for="apiKeyInput">Groq API key</label>
+        <input type="password" id="apiKeyInput" placeholder="gsk_..." />
+        <button id="saveKeyBtn" class="btn btn-ghost">Save</button>
+      </div>
+      <p class="hint">Stored only in your browser (localStorage). Never sent anywhere except Groq's API.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for BuildAnything Spark — running on Monad Testnet.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

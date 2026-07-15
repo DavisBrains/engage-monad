@@ -1,0 +1,354 @@
+:root {
+  --ink: #14171f;
+  --surface: #1b2030;
+  --surface-raised: #232a3d;
+  --line: #313952;
+  --paper: #edeae3;
+  --paper-dim: #a9a6a0;
+  --rust: #c4562e;
+  --rust-bright: #e0713f;
+  --teal: #4fa8a0;
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+a, button, input, textarea { font-family: inherit; }
+
+::selection { background: var(--rust); color: var(--ink); }
+
+/* ---------- Topbar ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  font-family: var(--font-mono);
+  letter-spacing: 0.28em;
+  font-size: 0.85rem;
+  color: var(--paper-dim);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.65rem 1.3rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--paper);
+}
+.btn-outline:hover:not(:disabled) { border-color: var(--paper-dim); }
+
+.btn-primary {
+  background: var(--rust);
+  color: var(--paper);
+}
+.btn-primary:hover:not(:disabled) { background: var(--rust-bright); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--teal);
+  border-color: transparent;
+  padding: 0.65rem 1rem;
+}
+.btn-ghost:hover:not(:disabled) { text-decoration: underline; }
+
+/* ---------- Hero ---------- */
+main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 3rem;
+  padding: 4rem 0 3rem;
+  align-items: start;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  line-height: 1.12;
+  margin: 0 0 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  color: var(--paper-dim);
+  font-size: 1.02rem;
+  max-width: 46ch;
+  margin: 0;
+}
+
+/* ---------- Stamp card ---------- */
+.stamp-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.6rem;
+  position: relative;
+}
+
+.stamp-card-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  margin-bottom: 1.2rem;
+}
+
+.stamp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stamp-number {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--rust-bright);
+}
+
+.stamp-unit {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--paper-dim);
+  margin-top: 0.3rem;
+}
+
+.stamp-ring {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--rust);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-8deg);
+  color: var(--rust);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  transition: transform 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.stamp-ring.stamped {
+  color: var(--teal);
+  border-color: var(--teal);
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.stamp-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.stamp-meta div { display: flex; flex-direction: column; gap: 0.25rem; }
+.stamp-meta span { color: var(--paper-dim); }
+.stamp-meta b { font-weight: 500; color: var(--paper); }
+
+/* ---------- Workspace ---------- */
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 1rem 0 2rem;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.4rem;
+}
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.9rem;
+}
+
+textarea#postInput {
+  width: 100%;
+  min-height: 180px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--paper);
+  padding: 0.9rem;
+  font-size: 0.92rem;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+textarea#postInput:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--paper-dim);
+  margin: 0.6rem 0 0;
+}
+
+.summary-box {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem;
+  min-height: 70px;
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+}
+.summary-box .placeholder { color: var(--paper-dim); }
+
+.comments-box { display: flex; flex-direction: column; gap: 0.7rem; }
+
+.comment-card {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.comment-card button {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--teal);
+  font-size: 0.72rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+.comment-card button:hover { border-color: var(--teal); }
+
+/* ---------- Log section ---------- */
+.log-section {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.tx-status {
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--paper-dim);
+}
+.tx-status.success { color: var(--teal); }
+.tx-status.error { color: var(--rust-bright); }
+
+/* ---------- Ledger ---------- */
+.ledger-section {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.ledger-list {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.ledger-empty { color: var(--paper-dim); }
+
+.ledger-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.ledger-entry span:first-child { color: var(--paper-dim); }
+
+/* ---------- Setup ---------- */
+.setup-section {
+  padding: 1.5rem 0 3rem;
+  border-top: 1px solid var(--line);
+}
+
+.setup-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.setup-row label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--paper-dim);
+}
+
+.setup-row input {
+  flex: 1;
+  min-width: 220px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--paper);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+}
+.setup-row input:focus-visible { outline: 2px solid var(--teal); outline-offset: 1px; }
+
+/* ---------- Footer ---------- */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--paper-dim);
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
+  .workspace { grid-template-columns: 1fr; }
+}
