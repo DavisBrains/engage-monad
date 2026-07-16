@@ -143,12 +143,34 @@ function describeContractError(err) {
 async function refreshStats() {
   if (!contract || !userAddress) return;
   try {
-    const [currentStreak, longestStreak, totalUses] = await contract.getStats(userAddress);
+    const [currentStreak, longestStreak, totalUses, lastTimestamp] = await contract.getStats(userAddress);
     streakNumber.textContent = currentStreak.toString();
     longestStat.textContent = longestStreak.toString();
     totalStat.textContent = totalUses.toString();
+    updateStampRing(Number(totalUses), Number(lastTimestamp));
   } catch (err) {
     console.error("getStats failed", err);
+  }
+}
+
+// Reflects real on-chain state: is the streak currently safe, or does it need action today?
+function updateStampRing(totalUses, lastTimestamp) {
+  const STREAK_WINDOW_SECONDS = 2 * 24 * 60 * 60; // matches contract's 2-day window
+  stampRing.classList.remove("stamped", "at-risk");
+
+  if (totalUses === 0) {
+    stampGlyph.textContent = "✕";
+    return; // never logged yet, neutral state
+  }
+
+  const secondsSinceLast = Math.floor(Date.now() / 1000) - lastTimestamp;
+
+  if (secondsSinceLast <= STREAK_WINDOW_SECONDS) {
+    stampRing.classList.add("stamped");
+    stampGlyph.textContent = "✓";
+  } else {
+    stampRing.classList.add("at-risk");
+    stampGlyph.textContent = "!";
   }
 }
 
@@ -202,9 +224,6 @@ logBtn.addEventListener("click", async () => {
 
     txStatus.textContent = "Logged! Tx confirmed on Monad.";
     txStatus.className = "tx-status success";
-
-    stampRing.classList.add("stamped");
-    stampGlyph.textContent = "✓";
 
     await refreshStats();
     addLedgerEntry(streakNumber.textContent, receipt.hash);
