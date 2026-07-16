@@ -8,7 +8,8 @@ const MONAD_EXPLORER = "https://testnet.monadexplorer.com";
 const CONTRACT_ABI = [
   "function logEngagement() external",
   "function getStats(address _user) external view returns (uint256 currentStreak, uint256 longestStreak, uint256 totalUses, uint256 lastTimestamp)",
-  "event EngagementLogged(address indexed user, uint256 newStreak, uint256 totalUses, uint256 timestamp)"
+  "event EngagementLogged(address indexed user, uint256 newStreak, uint256 totalUses, uint256 timestamp)",
+  "error TooSoon(uint256 secondsUntilNextLog)"
 ];
 
 // ---------- State ----------
@@ -119,6 +120,25 @@ function shortAddress(addr) {
   return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
+// Turns a raw contract revert into a plain-English message.
+function describeContractError(err) {
+  const errorData = err?.data || err?.error?.data || err?.info?.error?.data;
+  if (errorData && contract) {
+    try {
+      const decoded = contract.interface.parseError(errorData);
+      if (decoded && decoded.name === "TooSoon") {
+        const seconds = Number(decoded.args[0]);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        return `Already logged recently — come back in about ${hours}h ${minutes}m to keep your streak going.`;
+      }
+    } catch (parseErr) {
+      console.warn("Could not decode contract error:", parseErr);
+    }
+  }
+  return "Error: " + (err.shortMessage || err.reason || err.message || "Transaction failed.");
+}
+
 // ---------- Stats ----------
 async function refreshStats() {
   if (!contract || !userAddress) return;
@@ -190,10 +210,7 @@ logBtn.addEventListener("click", async () => {
     addLedgerEntry(streakNumber.textContent, receipt.hash);
   } catch (err) {
     console.error(err);
-    const msg = err.reason || err.message || "Transaction failed.";
-    txStatus.textContent = msg.includes("TooSoon")
-      ? "Already logged recently — come back later to keep your streak going."
-      : "Error: " + msg;
+    txStatus.textContent = describeContractError(err);
     txStatus.className = "tx-status error";
   } finally {
     logBtn.disabled = false;
